@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: cd63d88ce0dd5ad4fa3905729b9c0c7f
+timeCreated: 1498498459
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Sailec-MediumItalic
+  fontNames:
+  - Sailec-MediumItalic
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

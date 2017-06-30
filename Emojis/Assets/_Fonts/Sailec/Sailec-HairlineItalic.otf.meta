@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: e606e94edc0963b4595dab51a3299410
+timeCreated: 1498498459
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Sailec-HairlineItalic
+  fontNames:
+  - Sailec-HairlineItalic
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
