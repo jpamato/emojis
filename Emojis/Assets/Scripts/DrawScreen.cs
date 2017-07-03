@@ -24,7 +24,7 @@ public class DrawScreen : MonoBehaviour {
 	TrailRenderer tr;
 
 	bool drawing;
-	int lastColor;
+	int lastColor=1;
 
 	float yLimit = 400f;
 	public float xLimit = -1500;
@@ -81,6 +81,8 @@ public class DrawScreen : MonoBehaviour {
 			tr.material.color = colors [lastColor];
 			tr.startWidth = slider.value;
 			tr.endWidth = slider.value;
+			tr.sortingLayerName = "back";
+			tr.sortingOrder = -100;
 			swipeList.Add (swipe);
 		}
 
