@@ -11,6 +11,14 @@ public class Pointer : MonoBehaviour {
 	public GameObject rotate, resize, del;
 	Image image;
 
+	//## VERSION PERSONAL
+	public float yLimit0 = 84;
+	public float yLimit1 = 1019;
+	public float xLimit0 = 365;
+	public float xLimit1 = 1307;
+
+	//RectTransform rt;
+
 	void Start()
 	{
 		canvas = GetComponentInParent<Canvas> ();
@@ -29,6 +37,16 @@ public class Pointer : MonoBehaviour {
 
 		Events.ResetFrame += ResetFrame;
 		Events.DeleteFrame += DeleteFrame;
+
+		//## VERSION PERSONAL
+		xLimit0 *= Screen.currentResolution.width / Game.Instance.defaultResolution.x;
+		xLimit1 *= Screen.currentResolution.width / Game.Instance.defaultResolution.x;
+		yLimit0 *= Screen.currentResolution.height / Game.Instance.defaultResolution.y;
+		yLimit1 *= Screen.currentResolution.height / Game.Instance.defaultResolution.y;
+
+		/*GameObject go = transform.Find ("content").gameObject;
+		RectTransform[] rts = go.GetComponentsInChildren<RectTransform> ();
+		rt = rts [1];*/
 	}
 
 	void OnDestroy(){
@@ -39,9 +57,21 @@ public class Pointer : MonoBehaviour {
 	void Update()
 	{
 		if (moving) {
-			Vector2 pos;
-			RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, Input.mousePosition, canvas.worldCamera, out pos);
-			transform.position = canvas.transform.TransformPoint(pos);
+			bool test = false;
+			if (Game.Instance.portrait)
+				test = true;
+			
+			else if (Input.mousePosition.x > xLimit0 &&
+				Input.mousePosition.x < xLimit1 &
+				Input.mousePosition.y > yLimit0 &&
+				Input.mousePosition.y < yLimit1 ) 
+				test = true;
+
+			if(test){
+				Vector2 pos;
+				RectTransformUtility.ScreenPointToLocalPointInRectangle (canvas.transform as RectTransform, Input.mousePosition, canvas.worldCamera, out pos);
+				transform.position = canvas.transform.TransformPoint (pos);
+			}
 		}
 	}
 

@@ -26,9 +26,11 @@ public class DrawScreen : MonoBehaviour {
 	bool drawing;
 	int lastColor=1;
 
-	float yLimit = 400f;
-	public float xLimit = -1500;
-	float limit;
+	public float yLimit0 = 84;
+	public float yLimit1 = 1019;
+	public float xLimit0 = 365;
+	public float xLimit1 = 1307;
+	public float limit;
 
 	public List<GameObject> swipeList;
 
@@ -49,15 +51,18 @@ public class DrawScreen : MonoBehaviour {
 
 		panelShow = true;
 
-		xLimit *= Screen.currentResolution.width / Game.Instance.defaultResolution.x;
-		limit = Game.Instance.portrait?xLimit:yLimit;
+		xLimit0 *= Screen.currentResolution.width / Game.Instance.defaultResolution.x;
+		xLimit1 *= Screen.currentResolution.width / Game.Instance.defaultResolution.x;
+		yLimit0 *= Screen.currentResolution.height / Game.Instance.defaultResolution.y;
+		yLimit1 *= Screen.currentResolution.height / Game.Instance.defaultResolution.y;
+		limit = Game.Instance.portrait?Game.Instance.xLimit0:Game.Instance.yLimit0;
 	}
 
 	public void DrawPanelShow(bool enable){
 		if(Game.Instance.portrait)
-			limit = enable ? xLimit : 0;
+			limit = enable ? Game.Instance.xLimit0 : 0;
 		else
-			limit = enable ? yLimit : 0;
+			limit = enable ? Game.Instance.yLimit0 : 0;
 	}
 
 	void OnDestroy(){
@@ -71,9 +76,27 @@ public class DrawScreen : MonoBehaviour {
 
 	public void OnPointerDownDelegate(PointerEventData data)
 	{
-		//Debug.Log ("down");
-		float posL = Game.Instance.portrait?Input.mousePosition.x*-1f:Input.mousePosition.y;
-		if (posL > limit || limit==0f) {
+		bool test = false;
+		if (Game.Instance.portrait) {
+			//Debug.Log ("down");
+			//## Version transparente
+			float posL = Game.Instance.portrait ? Input.mousePosition.x * -1f : Input.mousePosition.y;
+			if (posL > limit || limit == 0f)
+				test = true;
+			//## Version Personal
+		}else if (Input.mousePosition.x > Game.Instance.xLimit0 &&
+		    Input.mousePosition.x < Game.Instance.xLimit1 &&
+		    Input.mousePosition.y > Game.Instance.yLimit0 &&
+		    Input.mousePosition.y < Game.Instance.yLimit1)
+			test = true;
+
+
+		/*print(Input.mousePosition.x +">"+ Game.Instance.xLimit0+"\n"+
+			Input.mousePosition.x +"<"+ Game.Instance.xLimit1 +"\n"+
+			Input.mousePosition.y +">"+ Game.Instance.yLimit0 +"\n"+
+			Input.mousePosition.y +"<"+ Game.Instance.yLimit1);*/
+
+		if(test){
 			swipe = Instantiate (swipePrefab);
 			//swipe.transform.parent = transform;
 			tr = swipe.GetComponent<TrailRenderer> ();
@@ -113,7 +136,11 @@ public class DrawScreen : MonoBehaviour {
 
 	public void ShowPanel(bool enable){
 		Vector3 pos = panel.localPosition;
-		float y = enable ? 0 : -300;
+		//float y = enable ? 0 : -300;
+
+		//PERSONAL
+		float y = enable ? 50 : -200;
+
 		panel.localPosition = new Vector3 (pos.x, y, pos.z);
 		hideBtn.SetActive (enable);
 		showBtn.SetActive (!enable);

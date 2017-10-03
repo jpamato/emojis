@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Resultante : MonoBehaviour {
 
 	public GameObject splash;
+	public GameObject encuesta;
 	public Text text;
 	public Text textPrefab;
 
@@ -21,6 +22,7 @@ public class Resultante : MonoBehaviour {
 	int draggCount;
 
 	DrawScreen dscreen;
+	WWWFormImage post;
 
 	// Use this for initialization
 	void Start () {
@@ -29,6 +31,7 @@ public class Resultante : MonoBehaviour {
 		menuEnabled = true;
 
 		dscreen = menu.DrawScreen.GetComponent<DrawScreen> ();
+		post = GetComponent<WWWFormImage> ();
 	}
 	
 	// Update is called once per frame
@@ -78,7 +81,7 @@ public class Resultante : MonoBehaviour {
 	public void Clean(){
 		Events.ResetFrame ("");
 		menuEnabled = !menuEnabled;
-		menuGO.SetActive (menuEnabled);
+		//menuGO.SetActive (menuEnabled);
 	}
 
 	public void CloseDrawM(){
@@ -101,11 +104,32 @@ public class Resultante : MonoBehaviour {
 		gameObject.SetActive (true);
 	}
 
+	public void PostImage(){
+		Game.Instance.enviando.EnableLoading (true);
+		post.SendImage ();
+		//Restart ();	
+	}
+
 	public void Restart(){
-		foreach (GameObject swipe in dscreen.swipeList)
-			Destroy(swipe);
-		dscreen.swipeList.Clear ();
+		if (dscreen != null) {
+			foreach (GameObject swipe in dscreen.swipeList)
+				Destroy (swipe);
+			dscreen.swipeList.Clear ();
+		}
 		Events.DeleteFrame ();
+		if (menu != null) {
+			menu.DrawScreen.SetActive (false);
+			menu.TextScreen.SetActive (false);
+			menu.EmojiScreen.SetActive (false);
+		}
+		gameObject.SetActive (false);
+		Events.ResetForm ();
+		encuesta.SetActive (true);
 		splash.SetActive (true);
+	}
+
+	public void NewPhoto(){		
+		Events.NewPhoto ();
+		gameObject.SetActive (false);
 	}
 }

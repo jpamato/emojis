@@ -41,7 +41,14 @@ public class TextScreen : MonoBehaviour {
 
 	public void ShowPanel(bool enable){
 		Vector3 pos = panel.localPosition;
-		float y = enable ? 0 : -250;
+		//float y = enable ? 300 : -250;
+
+
+		//float y = enable ? 0 : -250;
+
+		//personal
+		float y = enable ? 70: -120;
+
 		panel.localPosition = new Vector3 (pos.x, y, pos.z);
 		hideBtn.SetActive (enable);
 		showBtn.SetActive (!enable);
